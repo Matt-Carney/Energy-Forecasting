@@ -5,7 +5,7 @@ from pandas.tseries.holiday import USFederalHolidayCalendar
 from pathlib import Path
 
 
-def year_splitter(years):
+def data_preprocess(years):
     # Data folder
     data = Path('data')
     fp = data/'CAISO_zone_1_.csv'
@@ -16,6 +16,7 @@ def year_splitter(years):
     # Holidays
     holidays = USFederalHolidayCalendar().holidays()
 
+    # Raw data is 2018, 2019, 2020
     for year in years:
         # Split by year and add index, place as first column
         df_temp = df[df['time'].str.contains(year)].reset_index().drop(columns='index')
@@ -29,7 +30,7 @@ def year_splitter(years):
         df_temp['day'] = df_temp['date_time'].dt.day
         df_temp['day_of_week'] = df_temp['date_time'].dt.day_of_week
         df_temp['holiday'] = pd.to_datetime(df_temp['date_time'].dt.date).isin(holidays).astype(int)
-        df_temp = df_temp.drop(columns='time')
+        df_temp = df_temp.drop(columns=['time', 'Unnamed: 0'])
 
         # Save
         name = year + '_CAISO_zone_1_.csv' 
@@ -37,4 +38,4 @@ def year_splitter(years):
         df_temp.to_csv(fp_temp)
 
 years = ['2018', '2019', '2020']
-year_splitter(years)
+data_preprocess(years)
