@@ -39,14 +39,14 @@ def data_preprocess(years):
 
 
         # Save
-        name = year + '_CAISO_zone_1_.csv' 
+        name = 'CAISO_zone_1_' + year + '.csv'
         fp_temp = data/name
         df_temp.to_csv(fp_temp, index=False)
 
     return df_temp
 
 years = ['2018', '2019', '2020']
-df = data_preprocess(years)
-df.head()
+data_preprocess(years)
+
 
 
