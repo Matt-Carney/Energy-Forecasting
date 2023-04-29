@@ -73,6 +73,7 @@ print(f"suggested learning rate: {res.suggestion()}")
 fig = res.plot(show=True, suggest=True)
 fig.show()
 net.hparams.learning_rate = res.suggestion()
+res.suggestion()
 
 ### Fit model
 from pytorch_lightning import loggers as pl_loggers
