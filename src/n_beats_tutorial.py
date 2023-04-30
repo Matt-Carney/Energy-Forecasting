@@ -24,7 +24,7 @@ data = generate_ar_data(seasonality=10.0, timesteps=400, n_series=100, seed=42)
 data["static"] = 2
 data["date"] = pd.Timestamp("2020-01-01") + pd.to_timedelta(data.time_idx, "D")
 data.head()
-
+data['series'].value_counts()
 
 ### Create dataset and dataloaders
 max_encoder_length = 60
@@ -58,6 +58,12 @@ actuals = torch.cat([y[0] for x, y in iter(val_dataloader)])
 actuals = actuals.to(device='mps:0') # Need to move actuals to mps:0
 baseline_predictions = Baseline().predict(val_dataloader)
 SMAPE()(baseline_predictions, actuals).to('mps')
+#baseline_predictions.shape
+#actuals.shape
+
+
+
+
 
 ### Train a network
 pl.seed_everything(42)
