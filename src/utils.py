@@ -33,9 +33,11 @@ def data_preprocess(years):
         df_temp['date_time'] = pd.to_datetime(df_temp['time'])
         df_temp['month'] = df_temp['date_time'].dt.month
         df_temp['day'] = df_temp['date_time'].dt.day
+        df_temp['hour'] = df_temp['date_time'].dt.hour
         df_temp['month_day'] = df_temp['month'].astype(float) + df_temp['day'].astype(float)/31
         df_temp['day_of_week'] = df_temp['date_time'].dt.day_of_week
         df_temp['holiday'] = pd.to_datetime(df_temp['date_time'].dt.date).isin(holidays).astype(int).astype(str)
+        df_temp['series'] = 'A' 
         df_temp = df_temp.drop(columns='time')
 
         # Add lags
@@ -74,6 +76,6 @@ def config_compiler(file_name):
 
     combinations = list(itertools.product(*(config_dict[Name] for Name in param_key)))
 
-    return combinations
+    return param_key, combinations
 
 
